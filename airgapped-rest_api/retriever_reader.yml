@@ -16,6 +16,8 @@ components:
     type: FARMReader
   - name: TextFileConverter
     type: TextConverter
+  - name: FileTypeClassifier
+    type: FileTypeClassifier
 pipelines:
   - name: query
     nodes:
@@ -25,10 +27,16 @@ pipelines:
         name: Reader
   - name: indexing
     nodes:
-      - name: TextFileConverter
+      - name: FileTypeClassifier
         inputs: [File]
+      - name: TextFileConverter
+        inputs: [FileTypeClassifier.output_1]
+      - name: PDFFileConverter
+        inputs: [FileTypeClassifier.output_2]
+      - name: Preprocessor
+        inputs: [PDFFileConverter, TextFileConverter]
       - name: Retriever
-        inputs: [TextFileConverter]
+        inputs: [Preprocessor]
       - name: DocumentStore
         inputs: [Retriever]
 version: ignore
