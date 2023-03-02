@@ -1,6 +1,6 @@
 components:
   - name: DocumentStore
-    type: ElasticsearchDocumentStore
+    type: InMemoryDocumentStore
   - name: Retriever
     params:
       document_store: DocumentStore
@@ -8,7 +8,7 @@ components:
   - name: Reader
     params:
       # set model_name_or_path to reflect local model_path or HF model_name
-      model_name_or_path: /opt/models/fine-tuned-reader
+      model_name_or_path: emilyalsentzer/Bio_ClinicalBERT
       # here we have used a base-cpu image
       use_gpu: false
       # for airgapped image, we should load models from local
